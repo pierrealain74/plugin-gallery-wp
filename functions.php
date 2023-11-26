@@ -92,3 +92,41 @@ function understrap_child_customize_controls_js() {
 	);
 }
 add_action( 'customize_controls_enqueue_scripts', 'understrap_child_customize_controls_js' );
+
+
+// Fonction pour récupérer les url des thumbnail par catégorie
+function get_thumbnails_by_category() {
+
+    $category_id = $_GET['category_id'];
+    
+    $args = array(
+        'cat' => $category_id,
+        'post_type' => 'post',
+        'posts_per_page' => -1,
+    );
+
+    $query = new WP_Query($args);
+
+    $thumbnails = array();
+
+    if ($query->have_posts()) {
+        while ($query->have_posts()) {
+            $query->the_post();
+
+            $thumbnail_id = get_post_thumbnail_id();
+            $thumbnail_url = wp_get_attachment_image_src($thumbnail_id, 'full')[0];
+
+            $thumbnails[] = $thumbnail_url;
+        }
+    }
+
+    wp_reset_postdata();
+
+    echo json_encode($thumbnails);
+
+    die(); // Stop l'exécution après la sortie JSON
+}
+
+add_action('wp_ajax_get_thumbnails_by_category', 'get_thumbnails_by_category');
+add_action('wp_ajax_nopriv_get_thumbnails_by_category', 'get_thumbnails_by_category');
+

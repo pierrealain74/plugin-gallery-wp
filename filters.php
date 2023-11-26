@@ -50,7 +50,7 @@ $container = get_theme_mod('understrap_container_type');
 
                     </div>
                     <div id="blogger"></div>
-                    
+
                 </div>
 
                     <script>
@@ -60,10 +60,12 @@ $container = get_theme_mod('understrap_container_type');
                         
                             //Recupere le DOM des 3 SELECT
                             const categorySelect = document.getElementById("cat-select");
-                            const bloggerElt =document.getElementById("blogger");
+                            const bloggerElt = document.getElementById("blogger");
                             
 
                             categorySelect.addEventListener("change", function() {
+
+                                bloggerElt.textContent = '';
                                 
                                 const categoryId = categorySelect.value;
 
@@ -80,33 +82,32 @@ $container = get_theme_mod('understrap_container_type');
                                         // La réponse est au format JSON
                                         var posts = JSON.parse(xhr.responseText);
 
-                                        const urlThumbnail = []
-
                                         //for (const item of posts) {
-                                        posts.forEach( async(item) => {
+                                        posts.forEach( async(post) => {
+                                            
+                                           
+                                            // Accédez à l'URL de la thumbnail
+                                            // genre : http://wordpress-defaut.local/wp-json/wp/v2/media/71
+                                            var thumbnailUrl = post._links['wp:featuredmedia'][0].href;
 
-                                        
-                                        const featuredMediaLinks = item._links['wp:featuredmedia'];
+                                            //Ne prend que l'id à la fin de l'url : 71
+                                            const featuredMediaId = thumbnailUrl.split('/').pop();
 
-                                        const firstFeaturedMediaLink = featuredMediaLinks[0];
+                                            //Fonction qui appelle l'api media wp-json/wp/v2/media/71
+                                            //pour convertir l'id media en URL
+                                            let featuredMediaUrl = await fetchMedia(featuredMediaId);
 
-                                        const featuredMediaId = firstFeaturedMediaLink.href.split('/').pop();
-                                        
+                                            const divElt = document.createElement('div');
+                                            divElt.classList.add('divImg');
 
-                                        let featuredMediaUrl = await fetchMedia(featuredMediaId);
+                                            const imgElt = document.createElement('img');
+                                            imgElt.src = featuredMediaUrl;
 
-                                        const divElt = document.createElement('div')
-                                        divElt.classList.add('divImg');
-
-                                        const imgElt = document.createElement('img')
-                                        imgElt.src = featuredMediaUrl
-
-                                        divElt.appendChild(imgElt)
-                                        bloggerElt.appendChild(divElt)
+                                            divElt.appendChild(imgElt);
+                                            bloggerElt.appendChild(divElt);
 
 
 
-                                        //console.log(featuredMediaUrl);
 
                                     })
 
@@ -140,7 +141,6 @@ $container = get_theme_mod('understrap_container_type');
                             return null;
 
                         }
-
 
 
                         
