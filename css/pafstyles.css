@@ -31,3 +31,8 @@ Styles CSS définis par paf pour le template Filter
     height: 160px;
     width: 230px;
 }
+
+/*Menu : surcharge _navbar.scss*/
+.nav-link {
+    color: rgb(255 255 255);
+}

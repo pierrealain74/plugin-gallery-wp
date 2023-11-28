@@ -37,15 +37,23 @@ $container = get_theme_mod('understrap_container_type');
 
                 <main class="site-main" id="main">
 
+                <header class="entry-header"><h1 class="entry-title">Filtre par catégories</h1></header>
+                <div class="entry-content">
+                    <h2>Utilisation de : Ajax, Js, API REST </h2>
+                </div>
+
                 <div class="bloggerfilter">
 
                     
                     <div class="filters">
+                
 
                         <select name="cat" id="cat-select" class="form-select form-select-lg mb-3" aria-label="Large select example">
                             <option value="" selected>--Choisissez une catégorie--</option>
-                            <option value="3">News</option>
-                            <option value="4">Sport</option>
+                            <option value="3">Voitures de sport</option>
+                            <option value="4">Voitures de collection</option>
+                            <option value="6
+                            ">Avions</option>
                         </select>
 
                     </div>
@@ -56,22 +64,34 @@ $container = get_theme_mod('understrap_container_type');
                     <script>
 
                         document.addEventListener("DOMContentLoaded", function () {
-
                         
-                            //Recupere le DOM des 3 SELECT
+                            //Recupere le DOM du SELECT
                             const categorySelect = document.getElementById("cat-select");
-                            const bloggerElt = document.getElementById("blogger");
+                            const cat = '';
                             
+                            displayPost(cat);
 
                             categorySelect.addEventListener("change", function() {
 
-                                bloggerElt.textContent = '';
                                 
                                 const categoryId = categorySelect.value;
+                                displayPost(categoryId);
 
-                                //Créer la requete AJAX !!
-                                var xhr = new XMLHttpRequest();
-                                xhr.open('GET', '/wp-json/wp/v2/posts?categories=' + categoryId);
+                                
+                            });
+
+                        });
+                       
+
+                        function displayPost(cat){
+
+                            var bloggerElt = document.getElementById("blogger");
+                            bloggerElt.textContent = '';
+
+                            var xhr = new XMLHttpRequest();
+
+                            cat === '' ?  xhr.open('GET', '/wp-json/wp/v2/posts?per_page=20') :  xhr.open('GET', '/wp-json/wp/v2/posts?categories=' + cat + '&per_page=20')
+                           
 
                                 //xhr.onload = async function() {
                                 xhr.onload = function() {
@@ -96,6 +116,9 @@ $container = get_theme_mod('understrap_container_type');
                                             //Fonction qui appelle l'api media wp-json/wp/v2/media/71
                                             //pour convertir l'id media en URL
                                             let featuredMediaUrl = await fetchMedia(featuredMediaId);
+                                            
+                                            
+                                            /* Templating */
 
                                             const divElt = document.createElement('div');
                                             divElt.classList.add('divImg');
@@ -110,20 +133,14 @@ $container = get_theme_mod('understrap_container_type');
 
 
                                     })
-
-
-                                    //console.log('les posts de la categorie ', categoryId, ' : ', posts);
-
-                                    } else {
+                                } else {
                                     console.error('Erreur lors de la requête AJAX');
                                     }
                                     
                                 }
                                 xhr.send();
-                                
-                            });
 
-                        });
+                        }
 
 
                         function fetchMedia(thumbnailId){
@@ -166,4 +183,4 @@ $container = get_theme_mod('understrap_container_type');
 
 
 <?php get_sidebar();?>
-<?php get_footer();?>
+<?php //get_footer();?>

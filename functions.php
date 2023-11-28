@@ -130,3 +130,13 @@ function get_thumbnails_by_category() {
 add_action('wp_ajax_get_thumbnails_by_category', 'get_thumbnails_by_category');
 add_action('wp_ajax_nopriv_get_thumbnails_by_category', 'get_thumbnails_by_category');
 
+/**
+ * Get the domaine name + https / http
+ */
+function get_the_url_domainename(){
+
+	$fullUrl = 'http' . (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+	
+
+}
+add_action('wp_enqueue_scripts', 'get_the_url_domainename');

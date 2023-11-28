@@ -37,16 +37,23 @@ $container = get_theme_mod('understrap_container_type');
 
                 <main class="site-main" id="main">
 
+                <header class="entry-header"><h1 class="entry-title">Filtre par catégories</h1></header>
+                <div class="entry-content">
+                    <h2>Utilisation de Ajax, Php, functions.php</h2>
+                </div>
+
                 <div class="bloggerfilter">
 
                     
                     <div class="filters">
 
-                        <select name="cat" id="cat-select" class="form-select form-select-lg mb-3" aria-label="Large select example">
-                            <option value="" selected>--Choisissez une catégorie--</option>
-                            <option value="3">News</option>
-                            <option value="4">Sport</option>
-                        </select>
+                    <select name="cat" id="cat-select" class="form-select form-select-lg mb-3" aria-label="Large select example">
+                        <option value="" selected>--Choisissez une catégorie--</option>
+                        <option value="3">Voitures de sport</option>
+                        <option value="4">Voitures de collection</option>
+                        <option value="6
+                        ">Avions</option>
+                    </select>
 
                     </div>
                     <div id="blogger"></div>
@@ -58,45 +65,57 @@ $container = get_theme_mod('understrap_container_type');
 
                 document.addEventListener("DOMContentLoaded", function () {
 
-                    const categorySelect = document.getElementById("cat-select");
-                    
-                    const bloggerElt = document.getElementById("blogger");
+                    const categorySelect = document.getElementById("cat-select"); 
+                    const categoryId = '';
+
+                    displayPost(categoryId);
+
 
                     categorySelect.addEventListener("change", function() {
-                        bloggerElt.textContent = '';
 
                         const categoryId = categorySelect.value;
+                        displayPost(categoryId);
 
-                        // Effectuer la requête AJAX vers la fonction personnalisée
-                        var xhr = new XMLHttpRequest();
-                        xhr.open('GET', '/wp-admin/admin-ajax.php?action=get_thumbnails_by_category&category_id=' + categoryId);
-
-                        xhr.onload = function() {
-                            if (xhr.status === 200) {
-                                // La réponse est au format JSON
-                                var thumbnails = JSON.parse(xhr.responseText);
-
-                                thumbnails.forEach((thumbnail_url) => {
-                                    const divElt = document.createElement('div');
-                                    divElt.classList.add('divImg');
-
-                                    const imgElt = document.createElement('img');
-                                    imgElt.src = thumbnail_url;
-
-                                    divElt.appendChild(imgElt);
-                                    bloggerElt.appendChild(divElt);
-                                });
-                            } else {
-                                console.error('Erreur lors de la requête AJAX');
-                            }
-                        }
-
-                        xhr.send();
+                        
                     });
                 });
 
 
+                function displayPost(cat){
+                    
+                    const bloggerElt = document.getElementById("blogger");
+                    bloggerElt.textContent = '';
 
+                    // Requête AJAX vers la fonction personnalisée
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET', '/wp-admin/admin-ajax.php?action=get_thumbnails_by_category&category_id=' + cat);
+                    //Declanche la requete ajax côté serveur
+
+                    //Crée un tableau json et le rends dispo coté client
+                    xhr.onload = function() {
+                        if (xhr.status === 200) {
+
+                            // La réponse est au format JSON
+                            var thumbnails = JSON.parse(xhr.responseText);
+
+                            thumbnails.forEach((thumbnail_url) => {
+                                const divElt = document.createElement('div');
+                                divElt.classList.add('divImg');
+
+                                const imgElt = document.createElement('img');
+                                imgElt.src = thumbnail_url;
+
+                                divElt.appendChild(imgElt);
+                                bloggerElt.appendChild(divElt);
+                            });
+
+                        } else {
+                             console.error('Erreur lors de la requête AJAX');
+                        }
+                    }
+
+                    xhr.send();
+                }
 
 
 
@@ -125,4 +144,4 @@ $container = get_theme_mod('understrap_container_type');
 
 
 <?php get_sidebar();?>
-<?php get_footer();?>                
+<?php //get_footer();?>                
