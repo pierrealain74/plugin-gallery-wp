@@ -85,10 +85,12 @@ $container = get_theme_mod('understrap_container_type');
                     
                     const bloggerElt = document.getElementById("blogger");
                     bloggerElt.textContent = '';
+                    const urLocation = window.location.origin;
 
                     // Requête AJAX vers la fonction personnalisée
                     var xhr = new XMLHttpRequest();
-                    xhr.open('GET', '/wp-admin/admin-ajax.php?action=get_thumbnails_by_category&category_id=' + cat);
+                    
+                    xhr.open('GET', urLocation + '/wp-admin/admin-ajax.php?action=get_thumbnails_by_category&category_id=' + cat);
                     //Declanche la requete ajax côté serveur
 
                     //Crée un tableau json et le rends dispo coté client
@@ -138,10 +140,6 @@ $container = get_theme_mod('understrap_container_type');
 
     </div><!-- #page-wrapper -->
 </body>
-<script src="<?php echo get_stylesheet_directory_uri() . '/js/jquery-3.7.1.js' ?>"></script>
-
-<script src="<?php echo get_stylesheet_directory_uri() . '/js/filters.js' ?>"></script>
-
 
 <?php get_sidebar();?>
-<?php //get_footer();?>                
+<?php get_footer();?>                

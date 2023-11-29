@@ -68,7 +68,9 @@ $container = get_theme_mod('understrap_container_type');
                             //Recupere le DOM du SELECT
                             const categorySelect = document.getElementById("cat-select");
                             const cat = '';
-                            
+
+ 
+                          
                             displayPost(cat);
 
                             categorySelect.addEventListener("change", function() {

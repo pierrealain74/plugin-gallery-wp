@@ -3,8 +3,23 @@ Styles CSS définis par paf pour le template Filter
 25/11/2023
 */
 
-#bloggerfilter{
-
+/*
+Font Family de pierrealainfaure.com
+*/
+body{
+    font-family: 'Oswald-Medium' !important;
+}
+@font-face {
+    font-family: 'Oswald-Bold';
+    src: url('../fonts/Oswald-Bold.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Oswald-Medium';
+    src: url('../fonts/Oswald-Medium.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Oswald-Light';
+    src: url('../fonts/Oswald-Light.ttf') format('truetype');
 }
 
 .filters{
@@ -32,7 +47,21 @@ Styles CSS définis par paf pour le template Filter
     width: 230px;
 }
 
-/*Menu : surcharge _navbar.scss*/
+/*Menu, Header, Logo.. : surcharge */
 .nav-link {
+    color: rgb(255 255 255);
+    font-family: 'Oswald-light';
+    font-size: 1.5rem;
+}
+.bg-primary {
+
+    background-color: rgb(43, 42, 42) !important;
+}
+.navbar-brand{
+    font-family: 'Oswald-Bold';
+    font-size: 2rem;
+}
+#wrapper-footer{
+    background-color: rgb(43, 42, 42) !important;
     color: rgb(255 255 255);
 }
