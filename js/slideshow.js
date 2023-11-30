@@ -67,12 +67,15 @@ const arrowRight = document.querySelector('.arrow_right');
   }
 
   let currentSlide = 0;
-  console.log('currentSlide : ', currentSlide);
+  //console.log('currentSlide : ', currentSlide);
 
   arrowRight.addEventListener(
     'click', () => {
       
       currentSlide++;
+      sliderImg.classList.remove('slideinRight', 'slideinLeft');
+      void sliderImg.offsetWidth;
+      sliderImg.classList.add('slideinRight');
 
 
       if (currentSlide >= postsData.length) {//si on arrive au dernier slide
@@ -87,6 +90,9 @@ const arrowRight = document.querySelector('.arrow_right');
     'click', () => {
       
       currentSlide--;
+      sliderImg.classList.remove('slideinRight', 'slideinLeft');
+      void sliderImg.offsetWidth;
+      sliderImg.classList.add('slideinLeft');
 
 
       if (currentSlide <  0) {//si on arrive au dernier slide
