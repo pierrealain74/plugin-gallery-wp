@@ -1,13 +1,5 @@
-
-
-
-/* const postsUrl = `${window.location.origin}/wp-json/wp/v2/posts?_fields=id,title,excerpt,date,categories,tags,featured_media,link,&per_page=20&_embed=1`; */
-
 const postsUrl = `${window.location.origin}/wp-json/wp/v2/posts?_fields=id,title,featured_media,&per_page=20`;
 
-console.log(postsUrl);
-
-// Effectuer la requête AJAX avec fetch
 fetch(postsUrl)
 .then(response => {
     if (!response.ok) {
@@ -21,75 +13,105 @@ fetch(postsUrl)
 
   //console.log(postsData);
 
-  createOWLCarousel(postsData);
+  createCarousel(postsData);
   
   /********************/
   
 })
 .catch(error => {
-    console.error('Fetch error:', error);
+  console.error('Fetch error:', error);
 });
 
 
-/**
- * fetchMedia()
- * Fonction de recupération de l'url des thumbnail
- * 
- */
-function fetchMedia(urLocation, thumbnailId){
 
-  return fetch(`${urLocation}/wp-json/wp/v2/media/${thumbnailId}`)
-          .then(response => response.json())
-          .then(mediaData => mediaData.source_url)
-          .catch(error => console.error('Error fetching media data:', error));
-          return null;
-  
+async function createCarousel(postsData) {
+
+const banner = document.getElementById('banner');
+const bannerImg = document.querySelector('.banner-img');
+const arrowLeft = document.querySelector('.arrow_left');
+const arrowRight = document.querySelector('.arrow_right');
+
+
+  // Récupérer les éléments du DOM
+  const siteMain = document.querySelector('.site-main');
+  /*   const bannerImg = document.querySelector('.banner-img'); */
+
+  const pDots = document.querySelector('.dots');
+
+  //console.log('1st url : ', postsData[0].featured_media);
+  let thumbnailId = postsData[0].featured_media
+  let firstUrl = await fetchMedia(thumbnailId);
+  //console.log('firstUrl : ', firstUrl);
+
+  const sliderImg = document.createElement("img");
+  sliderImg.classList.add('banner-img');
+  sliderImg.src = firstUrl;
+
+  siteMain.appendChild(sliderImg);
+
+
+
+
+
+  async function modifySlide() {
+    
+    console.log('currentSlide : ', currentSlide);
+
+    let thumbnailId = postsData[currentSlide].featured_media
+    let nextUrl = await fetchMedia(thumbnailId);
+
+    sliderImg.src = nextUrl;
+
+
+
   }
 
+  let currentSlide = 0;
+  console.log('currentSlide : ', currentSlide);
 
-  
-/**
- * Création de la galerie OWL avec les vignettes des ACF Portfolios.
- * Utilise un fichier JSON pour récupérer les données des vignettes.
- */
-
-function createOWLCarousel(postsData) {
-
-  const container = document.querySelector(".owl-carousel.owl-theme");
-
-  postsData.forEach(async (post) => {
-
-
-    /**
-     * Recupération des Thumbnail
-     */
-
-    const thumbnailId = post.featured_media;
-    const urLocation = window.location.origin;
-
-    const thumbnailfull = await fetchMedia(urLocation,thumbnailId);
-
-    if (thumbnailfull) {
-      //console.log(thumbnailfull);
+  arrowRight.addEventListener(
+    'click', () => {
       
+      currentSlide++;
 
-      const divItem = document.createElement("div");
-      divItem.classList.add("item");
 
-      const imgItem = document.createElement("img");
-      imgItem.src = thumbnailfull;
-
-        divItem.appendChild(imgItem);
-        container.appendChild(divItem);
+      if (currentSlide >= postsData.length) {//si on arrive au dernier slide
+          currentSlide = 0;
+      }
+      modifySlide();
 
     }
+  );
 
-    /**
-     * Recupération des title
-     */
+  arrowLeft.addEventListener(
+    'click', () => {
+      
+      currentSlide--;
 
-    /*const title = post.title.rendered
-    title ? console.log('title : ', title) : ''*/
 
-  });
+      if (currentSlide <  0) {//si on arrive au dernier slide
+          currentSlide = postsData.length-1;
+      }
+      modifySlide();
+
+    }
+  );
+
+}//fin de fonction createCarousel
+
+
+  function fetchMedia(thumbnailId){
+
+    const urLocation = window.location.origin;
+
+    return fetch(`${urLocation}/wp-json/wp/v2/media/${thumbnailId}`)
+
+    .then(response => response.json())
+
+    .then(thumbnail => thumbnail.source_url)
+
+    .catch(error => console.error('Error fetching media data:', error));
+
+    return null;
+
 }

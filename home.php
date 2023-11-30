@@ -14,17 +14,10 @@ $container = get_theme_mod( 'understrap_container_type' );
 
 ?>
 
-<!--Rajout des css OWL-->
-<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri() . "/css/owl.carousel.css" ?>">
-
-<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri() . "/css/owl.theme.default.css" ?>">
-
-<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri() . "/css/owl.supercharge.css" ?>">
-
 <!--Fin Rajout des css OWL-->
 
 <script>const themeDirectoryUri = "<?php echo get_stylesheet_directory_uri(); ?>";</script>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 <body>
 
     <div class="wrapper" id="page-wrapper">
@@ -36,19 +29,24 @@ $container = get_theme_mod( 'understrap_container_type' );
 
                 <?php
                 // Do the left sidebar check and open div#primary.
-                get_template_part( 'global-templates/left-sidebar-check' );
+                //get_template_part( 'global-templates/left-sidebar-check' );
                 ?>
+                <main class="site-main" id="banner">
 
-                <main class="site-main" id="main">
-
-                    <div class="owl-carousel owl-theme"></div>
-
+                    <div class="arrow arrow_left">
+                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/icon/arrow_left.png" alt="fleche slide gauche">
+                    </div>
+                    <div class="arrow arrow_right">
+                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/icon/arrow_right.png" alt="fleche slide droite">
+                    </div>
+                    
+                    <div class="dots"></div>
 
                 </main>
 
-			<?php
-			// Do the right sidebar check and close div#primary.
-			get_template_part( 'global-templates/right-sidebar-check' );
+            <?php
+            // Do the right sidebar check and close div#primary.
+			//get_template_part( 'global-templates/right-sidebar-check' );
 			?>
 
 
@@ -62,8 +60,5 @@ $container = get_theme_mod( 'understrap_container_type' );
 
 <script src="<?php echo get_stylesheet_directory_uri() . '/js/slideshow.js' ?>"></script>
 
-<script src="<?php //echo get_stylesheet_directory_uri() . '/js/owl.carousel.min.js' ?>"></script>
-
-<script src="<?php //echo get_stylesheet_directory_uri() . '/js/initOwl.js' ?>"></script>
-<?php get_sidebar();?>
+<?php //get_sidebar();?>
 <?php get_footer();?>
