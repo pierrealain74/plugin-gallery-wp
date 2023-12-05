@@ -56,16 +56,13 @@ const arrowRight = document.querySelector('.arrow_right');
 
 
   let currentSlide = 0;
+  let direction;
 
   async function modifySlide() {
     
     console.log('currentSlide : ', currentSlide);
 
-    /**Image */
-    let thumbnailId = postsData[currentSlide].featured_media
-    let nextUrl = await fetchMedia(thumbnailId);
-    sliderImg.src = nextUrl;
-
+      
     /*Title */
     title.textContent = postsData[currentSlide].title.rendered;
 
@@ -73,15 +70,23 @@ const arrowRight = document.querySelector('.arrow_right');
     let categorie = await fetchCategories(postsData[currentSlide].categories)
     categoriesElt.textContent = categorie.join(', ');
 
+    /**Image */
+    let thumbnailId = postsData[currentSlide].featured_media
+    let nextUrl = await fetchMedia(thumbnailId);
+
+    sliderImg.classList.remove('animate_slider');
+    void sliderImg.offsetWidth;
+    sliderImg.classList.add('animate_slider');
+
+    sliderImg.src = nextUrl;   
+
+
   }
 
   //console.log('currentSlide : ', currentSlide);
 
   arrowRight.addEventListener(
     'click', () => {
-
- /*      void sliderImg.offsetWidth; */
-/*       sliderImg.classList.add('animate__animated', 'animate__bounceOutLeft'); */
 
       currentSlide++;
 
@@ -97,10 +102,6 @@ const arrowRight = document.querySelector('.arrow_right');
     'click', () => {
       
       currentSlide--;
-      sliderImg.classList.remove('slideinRight', 'slideinLeft');
-      void sliderImg.offsetWidth;
-      sliderImg.classList.add('slideinLeft');
-
 
       if (currentSlide <  0) {//si on arrive au dernier slide
           currentSlide = postsData.length-1;
