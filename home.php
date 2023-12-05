@@ -20,18 +20,23 @@ $container = get_theme_mod( 'understrap_container_type' );
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 <body>
 
-    <div class="wrapper" id="page-wrapper">
 
-        <div class="<?php echo esc_attr( $container ); ?>" id="content" tabindex="-1">
 
-            <div class="row">
+
+
+            
 
 
                 <?php
                 // Do the left sidebar check and open div#primary.
-                //get_template_part( 'global-templates/left-sidebar-check' );
+                get_template_part( 'global-templates/left-sidebar-check' );
                 ?>
-                <main class="site-main" id="banner">
+                <header id="banner">
+
+                    <div class="infos">
+                        <div class="title"></div>
+                        <div class="categories"></div>
+                    </div>
 
                     <div class="arrow arrow_left">
                         <img src="<?php echo get_stylesheet_directory_uri(); ?>/icon/arrow_left.png" alt="fleche slide gauche">
@@ -42,7 +47,7 @@ $container = get_theme_mod( 'understrap_container_type' );
                     
                     <div class="dots"></div>
 
-                </main>
+                </header>
 
             <?php
             // Do the right sidebar check and close div#primary.
@@ -50,15 +55,14 @@ $container = get_theme_mod( 'understrap_container_type' );
 			?>
 
 
-            </div><!-- .row -->
 
-        </div><!-- #content -->
 
-    </div><!-- #page-wrapper -->
 </body>
-<script src="<?php echo get_stylesheet_directory_uri() . '/js/jquery-3.7.1.js' ?>"></script>
+<script src="<?php //echo get_stylesheet_directory_uri() . '/js/jquery-3.7.1.js' ?>"></script>
 
 <script src="<?php echo get_stylesheet_directory_uri() . '/js/slideshow.js' ?>"></script>
+
+<script src="<?php echo get_stylesheet_directory_uri() . '/js/filters.js' ?>"></script>
 
 <?php //get_sidebar();?>
 <?php get_footer();?>

@@ -10,6 +10,34 @@ defined( 'ABSPATH' ) || exit;
 
 
 
+
+
+
+// Exposer l'URL de l'icone d'une catégorie via l'API REST
+function exposer_url_image_categorie_via_rest() {
+    register_rest_field('category',
+        'image_url',
+        array(
+            'get_callback' => 'obtenir_url_image_categorie',
+            'update_callback' => null,
+            'schema' => null,
+        )
+    );
+}
+
+add_action('rest_api_init', 'exposer_url_image_categorie_via_rest');
+
+function obtenir_url_image_categorie($object, $field_name, $request) {
+
+    $image_url = get_term_meta($object['id'], 'image_categorie', true);
+    return esc_url($image_url);
+}
+
+
+
+
+
+
 /**
  * Removes the parent themes stylesheet and scripts from inc/enqueue.php
  */
@@ -95,6 +123,7 @@ add_action( 'customize_controls_enqueue_scripts', 'understrap_child_customize_co
 
 
 // Fonction pour récupérer les url des thumbnail par catégorie
+// pour la page filters2.php en ajax (à verifier)
 function get_thumbnails_by_category() {
 
     $category_id = $_GET['category_id'];

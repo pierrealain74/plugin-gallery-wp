@@ -31,13 +31,11 @@ body{
     grid-template-columns: repeat(4, 1fr); 
     gap: 1rem;
 }
-.divImg{/*la div qui contient les thumbnail des posts*/
+.divImg{
 
 
     border-radius: .5rem;
     box-shadow: 0px 0px 1px;
-/*     height: 80px;
-    width: 160px; */
     padding: 2rem;
 
 }
@@ -72,8 +70,7 @@ Carousel - Print It
 
 #banner {
 	display: flex;
-	flex-direction: column;
-	align-items: center;
+	align-items: flex-start;
 	justify-content: center;
 	width: 100%;
 	min-height: 470px;
@@ -81,8 +78,8 @@ Carousel - Print It
 }
 .banner-img {
 
-	width: 100%;
-	height: 100%;
+	width: 100vw;
+	height: 470px;
 	object-fit: cover;
 	object-position: center;
 	opacity: 1;
@@ -103,8 +100,8 @@ Carousel - Print It
 
 @keyframes slideInFromRight {
     0% {
-        transform: translateX(150%);
-        opacity: .6;
+        transform: translateX(30%);
+        opacity: .2;
     }
     100% {
         transform: translateX(0);
@@ -118,8 +115,8 @@ Carousel - Print It
 
 @keyframes slideInFromLeft {
     0% {
-        transform: translateX(-150%);
-        opacity: .6;
+        transform: translateX(-30%);
+        opacity: .2;
     }
     100% {
         transform: translateX(0);
@@ -131,20 +128,32 @@ Carousel - Print It
     animation: slideInFromLeft .5s ease-in-out;
 }
 
+.infos{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 2rem;
+    background: rgba(255,255,255, .5);
+}
 
+.title{
 
-
-/* Code CSS en prévision de l'ajout d'un carousel pour la bannière */
-/* Gestion des fleches du carrousel */
+    font-size: 3rem;
+}
+.categories{
+    font-size: 2rem;
+}
 #banner .arrow {
 	position: absolute;
+    top: 35%;
 }
 #banner .arrow_left {
-	left: 10px;
+	left: 2%;
 	cursor: pointer;
 }
 #banner .arrow_right {
-	right: 10px;
+	right: 2%;
 	cursor: pointer;
 }
 /* Gestion des points du carrousel */
@@ -157,7 +166,7 @@ Carousel - Print It
 	margin-inline: 5px;
 	width: 13px;
 	height: 13px;
-	background-color: #ffffff00;
+	background-color: #ffff00;
 	border: 3px solid #fff;
 	border-radius: 100%;
 	box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);;
@@ -179,4 +188,66 @@ Carousel - Print It
 	display: block;
 	font-weight: 400;
 	font-size: 30px;
+}
+
+img{
+    max-width: unset;
+}
+
+/***************Responsive****/
+@media screen and (max-width: 450px) {
+
+    .banner-img {
+        height: 300px;
+    }
+    #banner .arrow {
+        top: 25%;
+    }
+    .infos{
+        position: absolute;
+        top: 45%;
+        left: 0%;
+        width: 100%;
+    }
+    
+    .title{
+    
+        font-size: 2rem;
+        padding: 5%;
+        line-height: 1.8rem;
+
+    }
+    .categories{
+        display: none;
+    }
+    
+}
+@media screen and (min-width: 451px) and (max-width: 1100px) {
+
+    .banner-img {
+        height: 300px;
+    }
+    #banner .arrow {
+        top: 25%;
+    }
+    .infos{
+        position: absolute;
+        top: 45%;
+        left: 0%;
+        width: 100%;
+    }
+    
+    .title{
+        left: 0;
+        font-size: 2rem;
+        padding: 1.5%;
+        line-height: 1.8rem;
+
+    }
+    .categories{
+        position: absolute;
+        font-size: 1rem;
+        padding: 1%;
+        background: rgba(255,255,255, .5);
+    }
 }

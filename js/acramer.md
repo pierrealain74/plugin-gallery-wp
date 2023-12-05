@@ -1,11 +1,5 @@
 [
-    {
-        "id": 120,
-        "title": {
-            "rendered": "Promotion sur les billets Air France"
-        },
-        "featured_media": 110
-    },
+    {"id":120,"title":{"rendered":"Promotion sur les billets Air France"},"featured_media":110,"categories":[6]},
     {
         "id": 118,
         "title": {

@@ -1,4 +1,4 @@
-const postsUrl = `${window.location.origin}/wp-json/wp/v2/posts?_fields=id,title,featured_media,&per_page=20`;
+const postsUrl = `${window.location.origin}/wp-json/wp/v2/posts?_fields=id,title,categories,featured_media,&per_page=20`;
 
 fetch(postsUrl)
 .then(response => {
@@ -33,10 +33,15 @@ const arrowRight = document.querySelector('.arrow_right');
 
 
   // Récupérer les éléments du DOM
-  const siteMain = document.querySelector('.site-main');
   /*   const bannerImg = document.querySelector('.banner-img'); */
 
-  const pDots = document.querySelector('.dots');
+  const title = document.querySelector('.title');
+  title.textContent = postsData[0].title.rendered;
+
+  const categoriesElt = document.querySelector('.categories');  
+  let categorie = await fetchCategories(postsData[0].categories)
+  categoriesElt.textContent = categorie.join(', ');
+  //console.log('categories : ', categorie);
 
   //console.log('1st url : ', postsData[0].featured_media);
   let thumbnailId = postsData[0].featured_media
@@ -47,36 +52,38 @@ const arrowRight = document.querySelector('.arrow_right');
   sliderImg.classList.add('banner-img');
   sliderImg.src = firstUrl;
 
-  siteMain.appendChild(sliderImg);
+  banner.appendChild(sliderImg);
 
 
-
-
+  let currentSlide = 0;
 
   async function modifySlide() {
     
     console.log('currentSlide : ', currentSlide);
 
+    /**Image */
     let thumbnailId = postsData[currentSlide].featured_media
     let nextUrl = await fetchMedia(thumbnailId);
-
     sliderImg.src = nextUrl;
 
+    /*Title */
+    title.textContent = postsData[currentSlide].title.rendered;
 
+    /**Categorie */
+    let categorie = await fetchCategories(postsData[currentSlide].categories)
+    categoriesElt.textContent = categorie.join(', ');
 
   }
 
-  let currentSlide = 0;
   //console.log('currentSlide : ', currentSlide);
 
   arrowRight.addEventListener(
     'click', () => {
-      
-      currentSlide++;
-      sliderImg.classList.remove('slideinRight', 'slideinLeft');
-      void sliderImg.offsetWidth;
-      sliderImg.classList.add('slideinRight');
 
+ /*      void sliderImg.offsetWidth; */
+/*       sliderImg.classList.add('animate__animated', 'animate__bounceOutLeft'); */
+
+      currentSlide++;
 
       if (currentSlide >= postsData.length) {//si on arrive au dernier slide
           currentSlide = 0;
@@ -120,4 +127,18 @@ const arrowRight = document.querySelector('.arrow_right');
 
     return null;
 
+}
+
+function fetchCategories(catId) {
+  const urLocation = window.location.origin;
+
+  // Utilisation de Promise.all pour gérer plusieurs requêtes en parallèle
+  const categoryPromises = catId.map(id =>
+    fetch(`${urLocation}/wp-json/wp/v2/categories/${id}`)
+      .then(response => response.json())
+      .then(category => category.name)
+  );
+
+  return Promise.all(categoryPromises)
+    .catch(error => console.error('Error fetching categories:', error));
 }
