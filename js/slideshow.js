@@ -1,27 +1,8 @@
-const postsUrl = `${window.location.origin}/wp-json/wp/v2/posts?_fields=id,title,categories,featured_media,&per_page=20`;
+//Creer un tableau  des post : title, thumbnail full, cat
 
-fetch(postsUrl)
-.then(response => {
-    if (!response.ok) {
-        throw new Error(`Network response was not ok: ${response.statusText}`);
-    }
-    return response.json();
-})
-.then(postsData => {
 
-  /********************/
 
-  //console.log(postsData);
-
-  createCarousel(postsData);
-  
-  /********************/
-  
-})
-.catch(error => {
-  console.error('Fetch error:', error);
-});
-
+createCarousel(all_posts_json);
 
 
 async function createCarousel(postsData) {
@@ -36,21 +17,20 @@ const arrowRight = document.querySelector('.arrow_right');
   /*   const bannerImg = document.querySelector('.banner-img'); */
 
   const title = document.querySelector('.title');
-  title.textContent = postsData[0].title.rendered;
+  title.textContent = postsData[0].title;
 
   const categoriesElt = document.querySelector('.categories');  
-  let categorie = await fetchCategories(postsData[0].categories)
-  categoriesElt.textContent = categorie.join(', ');
+  let categoryTab = postsData[0].category;
+  categoriesElt.textContent = categoryTab.join(', ');
   //console.log('categories : ', categorie);
 
   //console.log('1st url : ', postsData[0].featured_media);
-  let thumbnailId = postsData[0].featured_media
-  let firstUrl = await fetchMedia(thumbnailId);
+  let thumbnail = postsData[0].thumbnail;
   //console.log('firstUrl : ', firstUrl);
 
   const sliderImg = document.createElement("img");
   sliderImg.classList.add('banner-img');
-  sliderImg.src = firstUrl;
+  sliderImg.src = thumbnail;
 
   banner.appendChild(sliderImg);
 
@@ -64,21 +44,20 @@ const arrowRight = document.querySelector('.arrow_right');
 
       
     /*Title */
-    title.textContent = postsData[currentSlide].title.rendered;
+    title.textContent = postsData[currentSlide].title;
 
     /**Categorie */
-    let categorie = await fetchCategories(postsData[currentSlide].categories)
-    categoriesElt.textContent = categorie.join(', ');
+    let categoryTab = postsData[currentSlide].category
+    categoriesElt.textContent = categoryTab.join(', ');
 
     /**Image */
-    let thumbnailId = postsData[currentSlide].featured_media
-    let nextUrl = await fetchMedia(thumbnailId);
+    let thumbnail = postsData[currentSlide].thumbnail;
 
     sliderImg.classList.remove('animate_slider');
     void sliderImg.offsetWidth;
     sliderImg.classList.add('animate_slider');
 
-    sliderImg.src = nextUrl;   
+    sliderImg.src = thumbnail;   
 
 
   }
@@ -113,33 +92,3 @@ const arrowRight = document.querySelector('.arrow_right');
 
 }//fin de fonction createCarousel
 
-
-  function fetchMedia(thumbnailId){
-
-    const urLocation = window.location.origin;
-
-    return fetch(`${urLocation}/wp-json/wp/v2/media/${thumbnailId}`)
-
-    .then(response => response.json())
-
-    .then(thumbnail => thumbnail.source_url)
-
-    .catch(error => console.error('Error fetching media data:', error));
-
-    return null;
-
-}
-
-function fetchCategories(catId) {
-  const urLocation = window.location.origin;
-
-  // Utilisation de Promise.all pour gérer plusieurs requêtes en parallèle
-  const categoryPromises = catId.map(id =>
-    fetch(`${urLocation}/wp-json/wp/v2/categories/${id}`)
-      .then(response => response.json())
-      .then(category => category.name)
-  );
-
-  return Promise.all(categoryPromises)
-    .catch(error => console.error('Error fetching categories:', error));
-}
