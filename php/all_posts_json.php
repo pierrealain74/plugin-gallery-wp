@@ -8,7 +8,7 @@ $args = array(
 
 $query = new WP_Query($args);
 
-// Tableau pour stocker les données
+// Tableau pour stocker toutes les données
 $data = array();
 
 // Vérifier si des articles ont été trouvés
@@ -42,6 +42,8 @@ if ($query->have_posts()) {
 //$all_posts_json = json_encode($data, JSON_PRETTY_PRINT);
 // Afficher le résultat
 /* echo 'ici le json : ' . $all_posts_json; */
+
+/* print_r($data); */
 ?>
 
 <script>const all_posts_json = <?php echo json_encode($data, JSON_PRETTY_PRINT);?></script>

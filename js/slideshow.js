@@ -5,21 +5,22 @@
 createCarousel(all_posts_json);
 
 
-async function createCarousel(postsData) {
+function createCarousel(postsData) {
 
-const banner = document.getElementById('banner');
-const bannerImg = document.querySelector('.banner-img');
-const arrowLeft = document.querySelector('.arrow_left');
-const arrowRight = document.querySelector('.arrow_right');
+  /**Afficher le 1er POST */
 
+  let currentSlide = 0;
 
-  // Récupérer les éléments du DOM
-  /*   const bannerImg = document.querySelector('.banner-img'); */
+  const banner = document.getElementById('banner');
+  const arrowLeft = document.querySelector('.arrow_left');
+  const arrowRight = document.querySelector('.arrow_right');
+  const pDots = document.querySelector('.dots');
+
 
   const title = document.querySelector('.title');
   title.textContent = postsData[0].title;
 
-  const categoriesElt = document.querySelector('.categories');  
+  const categoriesElt = document.querySelector('.categories');
   let categoryTab = postsData[0].category;
   categoriesElt.textContent = categoryTab.join(', ');
   //console.log('categories : ', categorie);
@@ -28,17 +29,40 @@ const arrowRight = document.querySelector('.arrow_right');
   let thumbnail = postsData[0].thumbnail;
   //console.log('firstUrl : ', firstUrl);
 
-  const sliderImg = document.createElement("img");
-  sliderImg.classList.add('banner-img');
-  sliderImg.src = thumbnail;
+  const imgElt = document.createElement("img");
+  imgElt.classList.add('banner-img');
+  imgElt.src = thumbnail;
 
-  banner.appendChild(sliderImg);
+  banner.appendChild(imgElt);
+
+  /**Afficher les DOTS*/
+
+  // Créer un point pour chaque slide
+  postsData.forEach((slide, index) => {
+    
+
+    const dot = document.createElement('span');
+    dot.setAttribute('data-index', index);      
+    dot.classList.add('dot');
+    if (index === 0) {
+      dot.classList.add('dot_selected');
+    }
+    dot.addEventListener('click', (event) => {
+    const clickedDotIndex = event.target.getAttribute('data-index');// récupère le n° index 
+    currentSlide = clickedDotIndex;
+    
+    modifySlide();
+  
+  
+    }); 
+  
+    // Ajoute dynamiquement chaque point
+    pDots.appendChild(dot);
+  
+  });//endforeach
 
 
-  let currentSlide = 0;
-  let direction;
-
-  async function modifySlide() {
+  function modifySlide() {
     
     console.log('currentSlide : ', currentSlide);
 
@@ -53,12 +77,19 @@ const arrowRight = document.querySelector('.arrow_right');
     /**Image */
     let thumbnail = postsData[currentSlide].thumbnail;
 
-    sliderImg.classList.remove('animate_slider');
-    void sliderImg.offsetWidth;
-    sliderImg.classList.add('animate_slider');
+    imgElt.classList.remove('animate_slider');
+    void imgElt.offsetWidth;
+    imgElt.classList.add('animate_slider');
 
-    sliderImg.src = thumbnail;   
+    imgElt.src = thumbnail;   
 
+    /**Ajouter le dot_selected sur le dot actif et supprimer tous les autres */
+
+    const allDots = document.querySelectorAll('.dots span');
+    allDots.forEach(dots => dots.classList.remove('dot_selected'));
+
+    const dotSelected = document.querySelector('.dots span[data-index = "' + currentSlide + '"]');
+    dotSelected.classList.add('dot_selected');
 
   }
 
@@ -91,4 +122,3 @@ const arrowRight = document.querySelector('.arrow_right');
   );
 
 }//fin de fonction createCarousel
-
