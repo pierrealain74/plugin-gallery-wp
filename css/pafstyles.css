@@ -3,6 +3,7 @@ Styles CSS définis par paf pour le template Filter
 25/11/2023
 */
 
+
 /*
 Font Family de pierrealainfaure.com
 */
@@ -163,7 +164,9 @@ Carousel - Print It
 }
 #banner .arrow {
 	position: absolute;
-    top: 35%;
+    top: 50%;
+    transform: translate(0%, -50%);
+    padding: 0 40px;
 }
 #banner .arrow_left {
 	left: 2%;
@@ -179,6 +182,7 @@ Carousel - Print It
 	bottom: 40px;
 	display: flex;
     align-items: center;
+    flex-wrap: wrap;
 }
 .dot {
 	margin-inline: 5px;
@@ -215,34 +219,4 @@ Carousel - Print It
 
 img{
     max-width: unset;
-}
-
-/***************Responsive****/
-@media screen and (min-width: 320px) and (max-width: 880px) {
-
-    #banner{
-        min-height: unset;
-    }
-
-    .banner-img {
-        height: 300px;
-    }
-    #banner .arrow {
-        top: 35%;
-    }
-    .infos{
-        min-width: 230px;
-    }
-    
-    .title{
-    
-        font-size: 2.5rem;
-        line-height: 2.8rem;
-        width: 288px;
-
-    }
-    .categories{
-        display: none;
-    }
-    
 }

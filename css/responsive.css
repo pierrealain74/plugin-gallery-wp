@@ -1,0 +1,46 @@
+/***************Responsive****/
+@media screen and (min-width: 320px) and (max-width: 880px) {
+
+    #banner{
+        min-height: unset;
+    }
+
+    .banner-img {
+        height: 300px;
+    }
+    #banner .arrow {
+        top: 90%;
+        padding: 0 15px;
+    }
+    #banner .arrow img{
+        width: 50%;
+    }
+    .dots {
+
+        display: none;
+    }
+
+    .infos{
+        min-width: 230px;
+        transform: translate(-50%, -20%);
+    }
+    
+    .title{
+    
+        font-size: 2.5rem;
+        line-height: 2.8rem;
+        width: 288px;
+
+    }
+    .categories{
+        display: none;
+    }
+
+    #blogger{
+        grid-template-columns: 1fr; 
+        gap: 3rem;
+    }
+
+
+    
+}
