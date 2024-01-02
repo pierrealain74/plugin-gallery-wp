@@ -66,16 +66,10 @@ $container = get_theme_mod( 'understrap_container_type' );
                     <div class="bloggerfilter">
 
                         
-                        <div class="filters">
+                        <div class="filters"><?php
+                            get_template_part('template-parts/filters_cat');
+                        ?>
 
-
-                            <select name="cat" id="cat-select" class="form-select form-select-lg mb-3 w-25" aria-label="Large select example">
-                                <option value="" selected>Filtrer</option>
-                                <option value="3">Voitures de sport</option>
-                                <option value="4">Voitures de collection</option>
-                                <option value="6
-                                ">Avions</option>
-                            </select>
 
                         </div>
                         <div id="blogger"></div>
